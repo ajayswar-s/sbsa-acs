@@ -36,6 +36,8 @@ static void payload(void)
 
     /*  ID_AA64MMFR0_EL1.ECV[63:60] = 0b0010 indicate Enhanced counter vitualization */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR0_EL1), 60, 63);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.ECV = %llx", data, index);
+
 
     if (data == 2)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

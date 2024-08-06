@@ -30,19 +30,16 @@ static void payload(void)
     uint64_t data1 = val_pe_reg_read(ID_AA64ISAR1_EL1);
     uint32_t data2 = val_pe_reg_read(ID_AA64ISAR2_EL1);
     uint32_t index = val_pe_get_index_mpid(val_pe_get_mpid());
-    uint32_t primary_pe_idx = val_pe_get_primary_index();
 
     if (g_sbsa_level < 7) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));
         return;
     }
 
-    if (index == primary_pe_idx) {
-        val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.APA[7:4]    = %llx",
-                 VAL_EXTRACT_BITS(data1, 4, 7));
-        val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.APA3[15:12] = %llx",
-                 VAL_EXTRACT_BITS(data2, 12, 15));
-     }
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.APA[7:4]    = %llx",
+                 VAL_EXTRACT_BITS(data1, 4, 7), index);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.APA3[15:12] = %llx",
+                 VAL_EXTRACT_BITS(data2, 12, 15), index);
 
     /* Read ID_AA64ISAR1_EL1.APA[7:4] and ID_AA64ISAR2_EL1.APA3[15:12] == 0b0101 indicates
      * PAuth2, EnhancedPAC2 and FPAC support of standard QARMA3 and QARMA5 algorithms

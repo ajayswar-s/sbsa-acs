@@ -36,6 +36,8 @@ static void payload(void)
 
     /* Read ID_AA64PFR1_EL1.SSBS[7:4] = 0b0010 */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 4, 7);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR1_EL1.SSBS = %llx", data, index);
+
 
     if (data != 2)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));

@@ -32,6 +32,8 @@ payload(void)
 
   data = val_pe_reg_read(ID_AA64PFR0_EL1);
 
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1 = %llx", data, index);
+
   /* bits 1:0, 5:4, 9:8 and 13:12 must not be zero */
   if ((data & 0x3) && (data & 0x30) && (data & 0x300) && (data & 0x3000))
       val_set_status(index, RESULT_PASS(TEST_NUM, 01));

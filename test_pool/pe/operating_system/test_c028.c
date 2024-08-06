@@ -36,6 +36,8 @@ static void payload(void)
 
     /*  ID_AA64MMFR0_EL1.FGT[59:56] = 0b0001 indicate fine grained trap feature */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR0_EL1), 56, 59);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.FGT = %llx", data, index);
+
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

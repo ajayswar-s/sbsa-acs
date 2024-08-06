@@ -28,7 +28,6 @@ static void payload(void)
 {
     uint64_t data = 0;
     uint32_t index = val_pe_get_index_mpid(val_pe_get_mpid());
-    uint32_t primary_pe_idx = val_pe_get_primary_index();
 
     if (g_sbsa_level < 7) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));
@@ -37,9 +36,7 @@ static void payload(void)
 
     /*  ID_AA64PFR0_EL1.AMU[47:44] >= 0b0001 indicate AMU Support */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 44, 47);
-    if (index == primary_pe_idx) {
-        val_print(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.AMU[47:44]  = %llx", data);
-    }
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.AMU[47:44]  = %llx", data, index);
 
     if (data >= 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

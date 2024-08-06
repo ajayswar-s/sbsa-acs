@@ -36,6 +36,8 @@ static void payload(void)
 
     /* Read ID_AA64MMFR1_EL1.HAFDBS[3:0] = 0b0010 For Hardware update supported */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR1_EL1), 0, 3);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR1_EL1.HAFDBS = %llx", data, index);
+
 
     if (data != 2)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));

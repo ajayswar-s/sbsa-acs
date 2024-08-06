@@ -28,7 +28,6 @@ static void payload(void)
 {
     uint64_t data = 0;
     uint32_t index = val_pe_get_index_mpid(val_pe_get_mpid());
-    uint32_t primary_pe_idx = val_pe_get_primary_index();
 
     if (g_sbsa_level < 7) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));
@@ -38,15 +37,13 @@ static void payload(void)
     /* ID_AA64MMFR1_EL1.TWED [35:32] = 0b0001 indicates support for configurable delayed
        trapping for WFE instruction */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR1_EL1), 32, 35);
-    if (index == primary_pe_idx)
-        val_print(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR1_EL1.TWED = %llx", data);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR1_EL1.TWED = %llx", data, index);
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));
     else {
-        if (index == primary_pe_idx)
-            val_print(ACS_PRINT_WARN,
-                "\n       Recommened WFE fine-tuning delay feature not implemented", 0);
+        val_print_primary_pe(ACS_PRINT_WARN,
+                "\n       Recommened WFE fine-tuning delay feature not implemented", 0, index);
         val_set_status(index, RESULT_SKIP(TEST_NUM, 02));
     }
 }

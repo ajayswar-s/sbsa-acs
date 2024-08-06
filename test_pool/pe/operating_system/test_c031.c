@@ -36,6 +36,8 @@ static void payload(void)
 
     /*  ID_AA64ISAR1_EL1.I8MM[55:52] = 0b0001 Advanced SIMD int8 matrix multiply support */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR1_EL1), 52, 55);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.I8MM = %llx", data, index);
+
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

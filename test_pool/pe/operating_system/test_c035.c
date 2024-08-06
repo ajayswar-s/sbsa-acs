@@ -36,6 +36,8 @@ static void payload(void)
 
     /* ID_AA64ISAR1_EL1.DGH[51:48] = 0b0001 indicate data gathering hint feature */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR1_EL1), 48, 51);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.DGH = %llx", data, index);
+
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

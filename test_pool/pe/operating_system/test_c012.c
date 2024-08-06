@@ -41,6 +41,8 @@ static void payload(void)
 
     /* Read ID_AA64ISAR0_EL1.SHA3[35:32] for cryptography support for SHA3 */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR0_EL1), 32, 35);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR0_EL1.SHA3 = %llx", data, index);
+
     if (data == 0x1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));
     else {
@@ -48,8 +50,10 @@ static void payload(void)
         return;
     }
 
-    /* Read ID_AA64ISAR0_EL1.SHA3[15:12] for cryptography support for SHA512 */
+    /* Read ID_AA64ISAR0_EL1.SHA2[15:12] for cryptography support for SHA512 */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR0_EL1), 12, 15);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR0_EL1.SHA2 = %llx", data, index);
+
     if (data == 0x2)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));
     else

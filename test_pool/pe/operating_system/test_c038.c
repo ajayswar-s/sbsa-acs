@@ -36,6 +36,7 @@ static void payload(void)
 
     /* ID_AA64ISAR1_EL1.XS[59:56] = 0b0001 indicates XS attribute support  */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR1_EL1), 56, 59);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.XS = %llx", data, index);
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

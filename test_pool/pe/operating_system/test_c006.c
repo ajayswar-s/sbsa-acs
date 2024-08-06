@@ -39,12 +39,15 @@ static void payload(void)
         /* ID_AA64ISAR1_EL1.DPB[3:0] = 0b0001 or 0b0010 indicate support for
            DC CVAP instruction */
         data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR1_EL1), 0, 3);
+        val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.DPB = %llx", data, index);
+
         if (data == 0b0001 || data == 0b0010)
             val_set_status(index, RESULT_PASS(TEST_NUM, 01));
         else
             val_set_status(index, RESULT_FAIL(TEST_NUM, 01));
         return;
     }
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       No Persistent Memory Exists \n", 0, index);
     val_set_status(index, RESULT_SKIP(TEST_NUM, 02));
 }
 

@@ -27,7 +27,6 @@ static void payload(void)
 {
     uint64_t data = 0;
     uint32_t index = val_pe_get_index_mpid(val_pe_get_mpid());
-    uint32_t primary_pe_idx = val_pe_get_primary_index();
 
     if (g_sbsa_level < 5) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));
@@ -36,9 +35,8 @@ static void payload(void)
 
     /* Read ID_AA64MMFR2_EL1[27:24] for enhanced Nested Virtualization support */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR2_EL1), 24, 27);
-    if (index == primary_pe_idx) {
-        val_print(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR2_EL1.NV  = %llx", data);
-    }
+
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR2_EL1.NV  = %llx", data, index);
 
     /* Read ID_AA64MMFR2_EL1.NV[27:24] == 2 indicates FEAT_NV2 support
      * Value 1 indicates FEAT_NV support

@@ -42,22 +42,19 @@ static void check_pointer_signing_algorithm(uint32_t index, uint64_t data1, uint
 static void payload(void)
 {
     uint32_t index = val_pe_get_index_mpid(val_pe_get_mpid());
-    uint32_t primary_pe_idx = val_pe_get_primary_index();
 
     /* Read ID_AA64ISAR1_EL1 and ID_AA64ISAR2_EL1 for PAuth support */
     uint64_t data1 = val_pe_reg_read(ID_AA64ISAR1_EL1);
     uint64_t data2 = val_pe_reg_read(ID_AA64ISAR2_EL1);
 
-    if (index == primary_pe_idx) {
-       val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.APA[7:4]    = %llx",
-                 VAL_EXTRACT_BITS(data1, 4, 7));
-       val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.GPA[27:24]  = %llx",
-                 VAL_EXTRACT_BITS(data1, 24, 27));
-       val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.APA3[15:12] = %llx",
-                 VAL_EXTRACT_BITS(data2, 12, 15));
-       val_print(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.GPA3[11:8]  = %llx",
-                 VAL_EXTRACT_BITS(data2, 8, 11));
-    }
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.APA[7:4]    = %llx",
+                 VAL_EXTRACT_BITS(data1, 4, 7), index);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.GPA[27:24]  = %llx",
+                 VAL_EXTRACT_BITS(data1, 24, 27), index);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.APA3[15:12] = %llx",
+                 VAL_EXTRACT_BITS(data2, 12, 15), index);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.GPA3[11:8]  = %llx",
+                 VAL_EXTRACT_BITS(data2, 8, 11), index);
 
     if (g_sbsa_level < 5) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));

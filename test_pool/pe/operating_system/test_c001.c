@@ -42,6 +42,15 @@ payload(void)
    *    Check For TGran4_2[43:40] == 0x2 or 0x3 & TGran64_2[39:36] == 0x2.
    */
 
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.TGran4 = %llx",
+                                            VAL_EXTRACT_BITS(data, 28, 31), index);
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.TGran64 = %llx",
+                                            VAL_EXTRACT_BITS(data, 24, 27), index);
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.TGran4_2 = %llx",
+                                            VAL_EXTRACT_BITS(data, 40, 43), index);
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.TGran64_2 = %llx \n",
+                                            VAL_EXTRACT_BITS(data, 36, 39), index);
+
   if (VAL_EXTRACT_BITS(data, 36, 43) == 0) {
     /* Implementation before Arm v8.5 */
     if (VAL_EXTRACT_BITS(data, 24, 31) == 0)

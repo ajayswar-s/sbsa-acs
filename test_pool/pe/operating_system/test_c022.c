@@ -36,6 +36,7 @@ static void payload(void)
 
     /* ID_AA64MMFR2_EL1.EVT[59:56] = 0b0010 - Support for Enhanced Virtualization Trap */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR2_EL1), 56, 59);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR2_EL1.EVT = %llx", data, index);
 
     if (data != 2)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));

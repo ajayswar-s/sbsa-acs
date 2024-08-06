@@ -37,6 +37,8 @@ void payload(void)
     /* Read ID_AA64PFR0_EL1[31:28] For RAS Extensions */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 28, 31);
 
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.RAS = %llx", data, index);
+
     if (data == 0x0)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));
     else

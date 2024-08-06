@@ -48,6 +48,7 @@ static void payload(void)
     uint32_t memside_llc_cpor_supported = 0;
     uint64_t desc1;
     uint64_t desc2;
+    uint64_t data = 0;
 
     if (g_sbsa_level < 5) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 01));
@@ -55,6 +56,14 @@ static void payload(void)
     }
 
     /* If PE not implements FEAT_MPAM, Skip the test */
+    data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 40, 43);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.MPAM = %llx", data, index);
+
+    data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 16, 19);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR1_EL1.MPAM_frac = %llx",
+                                                                           data, index);
+
+
     if (!((VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 40, 43) > 0) ||
         (VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 16, 19) > 0))) {
             val_set_status(index, RESULT_SKIP(TEST_NUM, 02));
@@ -64,10 +73,9 @@ static void payload(void)
     /* If MPAM table not present, or no MSC
        found in table fail the test */
     msc_node_cnt = val_mpam_get_msc_count();
-    val_print(ACS_PRINT_DEBUG, "\n       MSC count = %d", msc_node_cnt);
+    val_print(ACS_PRINT_ERR, "\n       MSC count = %d", msc_node_cnt);
 
     if (msc_node_cnt == 0) {
-        val_print(ACS_PRINT_ERR, "\n       MSC count is 0", 0);
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));
         return;
     }

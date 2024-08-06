@@ -36,6 +36,7 @@ static void payload(void)
 
     /* ID_AA64PFR0_EL1.SVE[35:32] non-zero value indicate SVE support */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 32, 35);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.SVE = %llx", data, index);
 
     if (data == 0) {
         val_set_status(index, RESULT_SKIP(TEST_NUM, 02));
@@ -44,6 +45,8 @@ static void payload(void)
 
     /* ID_AA64ZFR0_EL1.I8MM[47:44] = 0b0001 indicate SVE Int8 matrix multiply support */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ZFR0_EL1), 44, 47);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ZFR0_EL1.I8MM = %llx", data, index);
+
 
     if (data == 1)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

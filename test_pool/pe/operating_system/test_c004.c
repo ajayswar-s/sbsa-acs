@@ -40,6 +40,11 @@ static void payload(void)
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR0_EL1), 0, 3);
     peri_count = val_peripheral_get_info(NUM_ALL, 0);
 
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.PARange = %llx",
+                                            VAL_EXTRACT_BITS(data, 0, 3), index);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       Total Peripherals: %llx", peri_count, index);
+
+
     if (data == FEAT_LPA_IMPL)
     {
         /* If the PE implements FEAT_LPA Index through Peripheral info table and
@@ -51,6 +56,8 @@ static void payload(void)
             /* If the base address is greater than 48 bits it is outside 256TB memory map */
             if (IS_ADDR_EXCEEDS_48BITS(peri_base))
             {
+                val_print_primary_pe(ACS_PRINT_DEBUG,
+                         "\n       Peripheral Address %llx exceeds 48 bits", peri_base, index);
                 val_set_status(index, RESULT_FAIL(TEST_NUM, 01));
                 return;
             }

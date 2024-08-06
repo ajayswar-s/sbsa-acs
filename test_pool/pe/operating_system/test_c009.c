@@ -37,6 +37,8 @@ static void payload(void)
      * support using level 1 or level 2
      */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR2_EL1), 52, 55);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR2_EL1.BBM = %llx", data, index);
+
     if ((data == 0x1) || (data == 0x2))
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));
     else

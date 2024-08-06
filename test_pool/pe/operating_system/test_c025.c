@@ -33,6 +33,8 @@ payload()
 
     /* Read ID_AA64PFR1_EL1[7:4] != 0 For CSDB, SSBB and PSSBB barriers  */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 4, 7);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR1_EL1 = %llx", data, index);
+
 
     if (data == 0)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 1));

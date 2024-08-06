@@ -38,6 +38,13 @@ static void payload(void)
     /* ID_AA64PFR0_EL1.MPAM bits[43:40] > 0 or ID_AA64PFR1_EL1.MPAM_frac bits[19:16] > 0
        indicates implementation of MPAM extension */
 
+    data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 40, 43);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR0_EL1.MPAM = %llx", data, index);
+
+    data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 16, 19);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64PFR1_EL1.MPAM_frac = %llx",
+                                                                       data, index);
+
     if (!((VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR0_EL1), 40, 43) > 0) ||
         (VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64PFR1_EL1), 16, 19) > 0))) {
             val_set_status(index, RESULT_SKIP(TEST_NUM, 02));
@@ -47,6 +54,8 @@ static void payload(void)
     /* check support for minimum of 16 physical partition IDs, MPAMIDR_EL1.PARTID_MAX
        must be >= 16 */
     data = VAL_EXTRACT_BITS(val_mpam_reg_read(MPAMIDR_EL1), 0, 15);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       MPAMIDR_EL1.PARTID_MAX = %llx", data, index);
+
     if (data < 16) {
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));
         return;
@@ -54,6 +63,7 @@ static void payload(void)
 
     /* check support for MPAM virtulization support indicated by MPAMIDR_EL1.HAS_HCR bit */
     data = VAL_EXTRACT_BITS(val_mpam_reg_read(MPAMIDR_EL1), 17, 17);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       MPAMIDR_EL1.HAS_HCR = %llx", data, index);
     if (data == 0) {
         val_set_status(index, RESULT_FAIL(TEST_NUM, 02));
         return;
@@ -62,6 +72,8 @@ static void payload(void)
     /* check support for minimum of 8 virtual partition IDs,
        MPAMIDR_EL1.VPMR_MAX must be > 0 */
     data = VAL_EXTRACT_BITS(val_mpam_reg_read(MPAMIDR_EL1), 18, 20);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       MPAMIDR_EL1.VPMR_MAX = %llx", data, index);
+
     if (data < 1) {
         val_set_status(index, RESULT_FAIL(TEST_NUM, 03));
         return;
@@ -70,6 +82,7 @@ static void payload(void)
     /* Check support for minimum of 2 performance monitor groups (PMGs),
     MPAMIDR_EL1.PMG_MAX must be >= 1 (value of PMG.MAX 1 means PMG 0 and 1 present */
     data = VAL_EXTRACT_BITS(val_mpam_reg_read(MPAMIDR_EL1), 32, 39);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       MPAMIDR_EL1.PMG_MAX = %llx", data, index);
     if (data < 1) {
         val_set_status(index, RESULT_FAIL(TEST_NUM, 04));
         return;

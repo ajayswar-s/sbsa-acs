@@ -36,6 +36,7 @@ static void payload(void)
 
     /* ID_AA64ISAR2_EL1.WFxT[3:0] = 0b0010 indicates WFET and WFIT support  */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR2_EL1), 0, 3);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR2_EL1.WFxT = %llx", data, index);
 
     if (data == 2)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

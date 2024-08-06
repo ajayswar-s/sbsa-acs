@@ -32,6 +32,9 @@ payload(void)
 
   data = val_pe_reg_read(ID_AA64MMFR0_EL1);
 
+  val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR0_EL1.ASIDBits = %llx",
+                                            VAL_EXTRACT_BITS(data, 4, 7), index);
+
   if (data & 0x0020) //bits 7:4 == 0010
 	val_set_status(index, RESULT_PASS(TEST_NUM, 01));
   else

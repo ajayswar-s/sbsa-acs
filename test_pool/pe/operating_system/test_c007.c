@@ -36,6 +36,9 @@ static void payload(void)
 
     /* Read ID_AA64MMFR1_EL1[7:4] For VMID */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR1_EL1), 4, 7);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR1_EL1.VMIDBits = %llx",
+                                                                         data, index);
+
 
     if (data == 0x2)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

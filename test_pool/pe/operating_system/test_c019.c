@@ -36,6 +36,8 @@ static void payload(void)
 
     /* Read ID_AA64MMFR2_EL1.E0PD[63:60] = 0b0001 For Support for Protect Against Timing Fault */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR2_EL1), 60, 63);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64MMFR2_EL1.E0PD = %llx", data, index);
+
 
     if (data != 1)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));

@@ -36,6 +36,7 @@ static void payload(void)
 
     /* Read ID_AA64ISAR1_EL1.SB[39:36] = 0b0001 For SB Speculation Barrier */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64ISAR1_EL1), 36, 39);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64ISAR1_EL1.SB = %llx", data, index);
 
     if (data != 1)
         val_set_status(index, RESULT_FAIL(TEST_NUM, 01));

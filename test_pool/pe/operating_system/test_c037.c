@@ -36,6 +36,7 @@ static void payload(void)
 
     /* ID_AA64MMFR1_EL1.PAN [23:20] = 0b0011 indicate support for enhanced PAN feature */
     data = VAL_EXTRACT_BITS(val_pe_reg_read(ID_AA64MMFR1_EL1), 20, 23);
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n        ID_AA64MMFR1_EL1.PAN = %llx", data, index);
 
     if (data == 3)
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));

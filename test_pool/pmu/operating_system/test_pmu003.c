@@ -41,6 +41,9 @@ static void payload(void)
      *   MTPMU = 0xF: Not implement any multithreaded PMU extension.
      *   MTPMU = 0x1: Implement the ARMv8.6-MTPMU extension.
      */
+    val_print_primary_pe(ACS_PRINT_DEBUG, "\n       ID_AA64DFR0_EL1.MTPMU = %llx", data, index);
+
+
     if ((VAL_EXTRACT_BITS(data, 48, 51) == 0xF) || (VAL_EXTRACT_BITS(data, 48, 51) == 0x1))
         val_set_status(index, RESULT_PASS(TEST_NUM, 01));
     else
